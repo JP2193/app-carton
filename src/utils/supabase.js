@@ -29,5 +29,6 @@ export async function asignarCarton(playlistId, nombreInvitado) {
   })
 
   if (error) throw error
-  return data ?? null
+  const result = Array.isArray(data) ? data[0] : data
+  return result ?? null
 }
