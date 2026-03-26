@@ -19,7 +19,7 @@ export default function App() {
     }
   }, [])
 
-  async function handleObtenerCarton(nombre) {
+  async function handleObtenerCarton({ nombre, apellido }) {
     setScreen('loading')
 
     const timeout = new Promise((_, reject) =>
@@ -27,7 +27,7 @@ export default function App() {
     )
 
     try {
-      await Promise.race([procesarCarton(nombre), timeout])
+      await Promise.race([procesarCarton(nombre, apellido), timeout])
     } catch (err) {
       if (err.message === 'SIN_CARTONES') {
         setErrorMsg('Se agotaron los cartones 😅 Pedile uno al organizador.')
@@ -40,13 +40,13 @@ export default function App() {
     }
   }
 
-  async function procesarCarton(nombre) {
+  async function procesarCarton(nombre, apellido) {
     const playlistId = await getPlaylistActiva()
     if (!playlistId) throw new Error('NO_PLAYLIST')
 
     const todosLosTracks = await getTracksDePlaylist(playlistId)
 
-    const carton = await asignarCartonRpc(playlistId, nombre)
+    const carton = await asignarCartonRpc(playlistId, nombre, apellido)
     if (!carton) throw new Error('SIN_CARTONES')
 
     const tracksDelCarton = carton.track_ids
@@ -55,7 +55,7 @@ export default function App() {
 
     const data = {
       cartonId: carton.id,
-      nombre,
+      nombre: `${nombre} ${apellido}`,
       numero: carton.numero,
       trackIds: carton.track_ids,
       tracks: tracksDelCarton,

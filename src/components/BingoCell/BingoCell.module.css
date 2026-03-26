@@ -11,19 +11,19 @@
   cursor: pointer;
   touch-action: manipulation;
   overflow: hidden;
-  transition: transform 0.15s ease;
+  transition: background 0.2s ease;
   min-height: 44px;
   text-align: center;
 }
 
 .celda:active {
-  transform: scale(0.95);
+  transform: scale(0.96);
 }
 
 .nombre {
   font-family: 'Jost', sans-serif;
-  font-size: clamp(0.65rem, 2.5vw, 0.85rem);
-  font-weight: 600;
+  font-size: clamp(0.65rem, 3vw, 0.9rem);
+  font-weight: 500;
   color: #3d2b1f;
   line-height: 1.2;
   display: -webkit-box;
@@ -36,7 +36,8 @@
 
 .artista {
   font-family: 'Jost', sans-serif;
-  font-size: clamp(0.55rem, 2vw, 0.72rem);
+  font-size: clamp(0.55rem, 2.5vw, 0.75rem);
+  font-weight: 300;
   color: #9e8a72;
   margin-top: 2px;
   white-space: nowrap;
@@ -47,23 +48,26 @@
 }
 
 /* Estado tachada */
+.tachada {
+  background: rgba(184, 147, 90, 0.08);
+}
+
 .tachada .nombre,
 .tachada .artista {
-  opacity: 0.4;
+  opacity: 0.35;
 }
 
-.tachada::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(184, 147, 90, 0.12);
-  pointer-events: none;
-}
-
+/* Cruz dorada: ::before = diagonal \, ::after = diagonal / */
+.tachada::before,
 .tachada::after {
   content: '';
   position: absolute;
   inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.tachada::before {
   background: linear-gradient(
     to bottom right,
     transparent calc(50% - 1.5px),
@@ -71,5 +75,14 @@
     #b8935a calc(50% + 1.5px),
     transparent calc(50% + 1.5px)
   );
-  pointer-events: none;
+}
+
+.tachada::after {
+  background: linear-gradient(
+    to bottom left,
+    transparent calc(50% - 1.5px),
+    #b8935a calc(50% - 1.5px),
+    #b8935a calc(50% + 1.5px),
+    transparent calc(50% + 1.5px)
+  );
 }

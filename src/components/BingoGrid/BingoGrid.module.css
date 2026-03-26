@@ -1,8 +1,8 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  width: min(96vw, 480px);
-  border: 1px solid #e8ddd0;
-  background: #e8ddd0;
+  width: min(96vw, 440px);
+  border: 1px solid #dfd0b9;
+  background: #dfd0b9;
   gap: 1px;
 }
