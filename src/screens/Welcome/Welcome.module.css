@@ -1,0 +1,92 @@
+.container {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  background: var(--bg, #fdfaf5);
+}
+
+.inner {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: #3d2b1f;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.95rem;
+  color: #9e8a72;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid #e8ddd0;
+  border-radius: 6px;
+  font-family: 'Jost', sans-serif;
+  font-size: 1rem;
+  color: #3d2b1f;
+  background: #ffffff;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.input::placeholder {
+  color: #9e8a72;
+}
+
+.input:focus {
+  border-color: #b8935a;
+}
+
+.button {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  background: #b8935a;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Jost', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+  touch-action: manipulation;
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.button:not(:disabled):active {
+  background: #a07d4a;
+}

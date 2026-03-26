@@ -1,0 +1,57 @@
+.container {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  background: #fdfaf5;
+}
+
+.inner {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  text-align: center;
+}
+
+.icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #3d2b1f;
+  margin-bottom: 0.75rem;
+}
+
+.mensaje {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.95rem;
+  color: #9e8a72;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+.button {
+  padding: 0.875rem 2rem;
+  background: #b8935a;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Jost', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.15s;
+}
+
+.button:active {
+  background: #a07d4a;
+}
