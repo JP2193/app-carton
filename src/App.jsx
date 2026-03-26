@@ -29,7 +29,6 @@ export default function App() {
     try {
       await Promise.race([procesarCarton(nombre), timeout])
     } catch (err) {
-      console.error('ERROR APP:', err)
       if (err.message === 'SIN_CARTONES') {
         setErrorMsg('Se agotaron los cartones 😅 Pedile uno al organizador.')
       } else if (err.message === 'NO_PLAYLIST') {
@@ -42,9 +41,7 @@ export default function App() {
   }
 
   async function procesarCarton(nombre) {
-    console.log('procesarCarton: inicio')
     const playlistId = await getPlaylistActiva()
-    console.log('procesarCarton: playlistId =', playlistId)
     if (!playlistId) throw new Error('NO_PLAYLIST')
 
     const todosLosTracks = await getTracksDePlaylist(playlistId)
