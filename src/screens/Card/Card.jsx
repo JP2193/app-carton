@@ -10,8 +10,8 @@ export default function Card({ data }) {
       <img src={floralImg} className={styles.floralTop} alt="" aria-hidden="true" />
 
       <header className={styles.header}>
+        <span className={styles.numero}>#{numero}</span>
         <h1 className={styles.titulo}>♪ Bingo Musical</h1>
-        <p className={styles.numero}>#{numero}</p>
       </header>
 
       <main className={styles.main}>

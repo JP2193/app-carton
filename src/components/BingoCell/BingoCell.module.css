@@ -1,18 +1,18 @@
 .celda {
   position: relative;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1 / 0.85;
   background: #ffffff;
   border: none;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 6px 4px;
+  padding: 4px 3px;
   cursor: pointer;
   touch-action: manipulation;
   overflow: hidden;
   transition: background 0.2s ease;
-  min-height: 44px;
+  min-height: 38px;
   text-align: center;
 }
 
@@ -22,7 +22,7 @@
 
 .nombre {
   font-family: 'Jost', sans-serif;
-  font-size: clamp(0.65rem, 3vw, 0.9rem);
+  font-size: clamp(0.78rem, 3.5vw, 1rem);
   font-weight: 500;
   color: #3d2b1f;
   line-height: 1.2;
@@ -36,10 +36,10 @@
 
 .artista {
   font-family: 'Jost', sans-serif;
-  font-size: clamp(0.55rem, 2.5vw, 0.75rem);
+  font-size: clamp(0.65rem, 2.8vw, 0.85rem);
   font-weight: 300;
   color: #9e8a72;
-  margin-top: 2px;
+  margin-top: 1px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -13,26 +13,29 @@
 }
 
 .header {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.25rem 1rem 0.5rem;
+  padding: 0.5rem 1rem 0.4rem;
   text-align: center;
 }
 
 .titulo {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-size: 1.7rem;
+  font-size: 1.9rem;
   font-weight: 600;
   color: #3d2b1f;
   line-height: 1.1;
-  margin-bottom: 0.15rem;
 }
 
 .numero {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
   font-family: 'Jost', sans-serif;
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 500;
   color: #9e8a72;
 }
