@@ -1,19 +1,104 @@
-import { useState } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import floralImg from '../../../img/1.png'
+import {
+  getPlaylistActiva,
+  getInvitados,
+  marcarInvitadoAsignado,
+  getTracksDePlaylist,
+  asignarCartonSobrante,
+  normalizar,
+} from '../../utils/supabase.js'
+import { getCartonGuardado } from '../../utils/storage.js'
 import styles from './Welcome.module.css'
 
-export default function Welcome({ onSubmit }) {
-  const [nombre, setNombre] = useState('')
-  const [apellido, setApellido] = useState('')
-  const [submitting, setSubmitting] = useState(false)
+export default function Welcome({ onCartonListo }) {
+  const [playlistId, setPlaylistId] = useState(null)
+  const [invitados, setInvitados] = useState([])
+  const [cargando, setCargando] = useState(true)
+  const [errorMsg, setErrorMsg] = useState('')
+  const [query, setQuery] = useState('')
+  const [seleccionandoId, setSeleccionandoId] = useState(null)
+  const [errorSobrante, setErrorSobrante] = useState('')
 
-  const disabled = nombre.trim().length < 2 || apellido.trim().length < 2 || submitting
+  useEffect(() => {
+    async function init() {
+      try {
+        const pid = await getPlaylistActiva()
+        if (!pid) {
+          setErrorMsg('El evento no está configurado todavía. Consultá al organizador.')
+          return
+        }
+        setPlaylistId(pid)
+        const lista = await getInvitados(pid)
+        setInvitados(lista)
+      } catch {
+        setErrorMsg('Error de conexión. Verificá el WiFi e intentá de nuevo.')
+      } finally {
+        setCargando(false)
+      }
+    }
+    init()
+  }, [])
 
-  function handleSubmit(e) {
-    e.preventDefault()
-    if (disabled) return
-    setSubmitting(true)
-    onSubmit({ nombre: nombre.trim(), apellido: apellido.trim() })
+  const filtrados = useMemo(() => {
+    if (!query.trim()) return invitados
+    const q = normalizar(query)
+    return invitados.filter(
+      (inv) => normalizar(inv.nombre).includes(q) || normalizar(inv.apellido).includes(q)
+    )
+  }, [query, invitados])
+
+  async function handleSeleccionar(invitado) {
+    if (seleccionandoId) return
+
+    const guardado = getCartonGuardado()
+    if (guardado?.invitadoId === invitado.id) {
+      onCartonListo(guardado)
+      return
+    }
+
+    setSeleccionandoId(invitado.id)
+    setErrorMsg('')
+    try {
+      const data = await marcarInvitadoAsignado(invitado.id, playlistId)
+      onCartonListo(data)
+    } catch (err) {
+      setErrorMsg(
+        err.message === 'SIN_CARTON'
+          ? 'Este invitado no tiene cartón asignado. Consultá al organizador.'
+          : 'Error de conexión. Intentá de nuevo.'
+      )
+      setSeleccionandoId(null)
+    }
+  }
+
+  async function handleSobrante() {
+    if (!playlistId || seleccionandoId) return
+    setSeleccionandoId('sobrante')
+    setErrorSobrante('')
+    try {
+      const carton = await asignarCartonSobrante(playlistId)
+      if (!carton) {
+        setErrorSobrante('No hay cartones disponibles. Consultá al organizador.')
+        setSeleccionandoId(null)
+        return
+      }
+      const todosLosTracks = await getTracksDePlaylist(playlistId)
+      const tracks = carton.track_ids
+        .map((id) => todosLosTracks.find((t) => t.id === id))
+        .filter(Boolean)
+      onCartonListo({
+        invitadoId: null,
+        cartonId: carton.id,
+        playlistId,
+        numero: carton.numero,
+        trackIds: carton.track_ids,
+        tracks,
+      })
+    } catch {
+      setErrorSobrante('Error de conexión. Intentá de nuevo.')
+      setSeleccionandoId(null)
+    }
   }
 
   return (
@@ -23,50 +108,53 @@ export default function Welcome({ onSubmit }) {
         <h1 className={styles.title}>♪ Bingo Musical</h1>
         <p className={styles.subtitle}>Clara &amp; Javier · 11 de Abril de 2026</p>
 
-        <div className={styles.divider}>
-          <span className={styles.dividerLine} />
-          <svg width="32" height="14" viewBox="0 0 32 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="6" cy="7" rx="5" ry="2.5" transform="rotate(-20 6 7)" fill="#7a8c6e" opacity="0.7"/>
-            <ellipse cx="16" cy="5" rx="4" ry="2" fill="#b8935a" opacity="0.6"/>
-            <ellipse cx="26" cy="7" rx="5" ry="2.5" transform="rotate(20 26 7)" fill="#7a8c6e" opacity="0.7"/>
-          </svg>
-          <span className={styles.dividerLine} />
-        </div>
+        {cargando ? (
+          <p className={styles.hint}>Cargando lista...</p>
+        ) : errorMsg && !invitados.length ? (
+          <p className={styles.errorMsg}>{errorMsg}</p>
+        ) : (
+          <>
+            <p className={styles.instruccion}>Buscá tu nombre:</p>
+            <input
+              className={styles.searchInput}
+              type="text"
+              placeholder="escribí tu nombre..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              autoComplete="off"
+            />
 
-        <form onSubmit={handleSubmit} className={styles.form}>
-          <div className={styles.fieldGroup}>
-            <label className={styles.label}>Nombre</label>
-            <input
-              className={styles.input}
-              type="text"
-              placeholder="Ingresá tu nombre"
-              value={nombre}
-              onChange={e => setNombre(e.target.value)}
-              autoFocus
-              autoComplete="given-name"
-              maxLength={40}
-            />
-          </div>
-          <div className={styles.fieldGroup}>
-            <label className={styles.label}>Apellido</label>
-            <input
-              className={styles.input}
-              type="text"
-              placeholder="Ingresá tu apellido"
-              value={apellido}
-              onChange={e => setApellido(e.target.value)}
-              autoComplete="family-name"
-              maxLength={40}
-            />
-          </div>
-          <button
-            className={styles.button}
-            type="submit"
-            disabled={disabled}
-          >
-            Obtener mi cartón →
-          </button>
-        </form>
+            <div className={styles.listaWrap}>
+              {filtrados.length === 0 ? (
+                <p className={styles.sinResultados}>Sin resultados para "{query}"</p>
+              ) : (
+                filtrados.map((inv) => (
+                  <button
+                    key={inv.id}
+                    className={`${styles.invitadoItem} ${seleccionandoId === inv.id ? styles.seleccionando : ''}`}
+                    onClick={() => handleSeleccionar(inv)}
+                    disabled={!!seleccionandoId}
+                  >
+                    <span className={styles.invNombre}>{inv.nombre}</span>
+                    <span className={styles.invApellido}>{inv.apellido}</span>
+                    {seleccionandoId === inv.id && <span className={styles.dotLoader} />}
+                  </button>
+                ))
+              )}
+            </div>
+
+            {errorMsg && <p className={styles.errorMsg}>{errorMsg}</p>}
+            {errorSobrante && <p className={styles.errorMsg}>{errorSobrante}</p>}
+
+            <button
+              className={styles.btnSobrante}
+              onClick={handleSobrante}
+              disabled={!!seleccionandoId}
+            >
+              ¿No encontrás tu nombre? →
+            </button>
+          </>
+        )}
       </div>
     </div>
   )

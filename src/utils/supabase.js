@@ -1,6 +1,6 @@
 import { supabase } from '../lib/supabase.js'
 
-function normalizar(str) {
+export function normalizar(str = '') {
   return str
     .toLowerCase()
     .normalize('NFD')
@@ -42,4 +42,49 @@ export async function asignarCarton(playlistId, nombre, apellido) {
   if (error) throw error
   const result = Array.isArray(data) ? data[0] : data
   return result ?? null
+}
+
+export async function getInvitados(playlistId) {
+  const { data, error } = await supabase
+    .from('invitados')
+    .select('id, nombre, apellido')
+    .eq('playlist_id', playlistId)
+    .order('apellido', { ascending: true })
+  if (error) throw error
+  return data ?? []
+}
+
+export async function marcarInvitadoAsignado(invitadoId, playlistId) {
+  const { data: inv, error } = await supabase
+    .from('invitados')
+    .select('id, nombre, apellido, carton_id, cartones(id, numero, track_ids)')
+    .eq('id', invitadoId)
+    .single()
+  if (error) throw error
+  if (!inv.carton_id) throw new Error('SIN_CARTON')
+
+  await supabase.rpc('marcar_invitado_asignado', { p_invitado_id: invitadoId })
+
+  const todosLosTracks = await getTracksDePlaylist(playlistId)
+  const tracks = inv.cartones.track_ids
+    .map((id) => todosLosTracks.find((t) => t.id === id))
+    .filter(Boolean)
+
+  return {
+    invitadoId,
+    cartonId: inv.carton_id,
+    playlistId,
+    nombre: `${inv.nombre} ${inv.apellido}`,
+    numero: inv.cartones.numero,
+    trackIds: inv.cartones.track_ids,
+    tracks,
+  }
+}
+
+export async function asignarCartonSobrante(playlistId) {
+  const { data, error } = await supabase.rpc('asignar_carton_sobrante', {
+    p_playlist_id: playlistId,
+  })
+  if (error) throw error
+  return Array.isArray(data) ? data[0] : data
 }

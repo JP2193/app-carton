@@ -125,3 +125,149 @@
 .button:not(:disabled):active {
   background: #2a1e16;
 }
+
+/* ─── Buscador ────────────────────────────────────────────────────────────────── */
+.instruccion {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #9e8a72;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  align-self: flex-start;
+  margin-bottom: 0.25rem;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #dfd0b9;
+  border-radius: 4px;
+  font-family: 'Jost', sans-serif;
+  font-size: 16px;
+  color: #3d2b1f;
+  background: #ffffff;
+  outline: none;
+  margin-bottom: 0.25rem;
+  transition: border-color 0.15s;
+}
+
+.searchInput:focus {
+  border-color: #b8935a;
+}
+
+.listaWrap {
+  width: 100%;
+  max-height: 45vh;
+  overflow-y: auto;
+  border: 1px solid #dfd0b9;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.invitadoItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-bottom: 1px solid #ede4d8;
+  background: #ffffff;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s;
+  touch-action: manipulation;
+}
+
+.invitadoItem:last-child {
+  border-bottom: none;
+}
+
+.invitadoItem:not(:disabled):active,
+.invitadoItem:not(:disabled):hover {
+  background: #faf4ec;
+}
+
+.invitadoItem:disabled {
+  cursor: default;
+}
+
+.seleccionando {
+  background: #faf4ec;
+  opacity: 0.7;
+}
+
+.invNombre {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #3d2b1f;
+}
+
+.invApellido {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: #9e8a72;
+}
+
+.dotLoader {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #dfd0b9;
+  border-top-color: #b8935a;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.sinResultados {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.85rem;
+  color: #9e8a72;
+  padding: 1rem;
+  text-align: center;
+}
+
+.hint {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.9rem;
+  color: #9e8a72;
+  text-align: center;
+}
+
+.errorMsg {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.85rem;
+  color: #c0392b;
+  text-align: center;
+  padding: 0.5rem 0;
+}
+
+.btnSobrante {
+  background: none;
+  border: none;
+  color: #c4b49e;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.78rem;
+  cursor: pointer;
+  padding: 0.75rem 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s;
+}
+
+.btnSobrante:not(:disabled):hover {
+  color: #9e8a72;
+}
+
+.btnSobrante:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
