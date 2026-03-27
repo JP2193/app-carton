@@ -3,6 +3,7 @@ import Welcome from './screens/Welcome/Welcome.jsx'
 import Loading from './screens/Loading/Loading.jsx'
 import Card from './screens/Card/Card.jsx'
 import ErrorScreen from './screens/Error/ErrorScreen.jsx'
+import BingoGrid from './components/BingoGrid/BingoGrid.jsx'
 import { getCartonGuardado, guardarCarton } from './utils/storage.js'
 import { getPlaylistActiva, getTracksDePlaylist, asignarCarton as asignarCartonRpc } from './utils/supabase.js'
 
@@ -15,7 +16,7 @@ export default function App() {
     const guardado = getCartonGuardado()
     if (guardado) {
       setCartonData(guardado)
-      setScreen('card')
+      setScreen('waiting')
     }
   }, [])
 
@@ -50,20 +51,21 @@ export default function App() {
     if (!carton) throw new Error('SIN_CARTONES')
 
     const tracksDelCarton = carton.track_ids
-      .map(id => todosLosTracks.find(t => t.id === id))
+      .map((id) => todosLosTracks.find((t) => t.id === id))
       .filter(Boolean)
 
     const data = {
       cartonId: carton.id,
       nombre: `${nombre} ${apellido}`,
       numero: carton.numero,
+      playlistId,
       trackIds: carton.track_ids,
       tracks: tracksDelCarton,
     }
 
     guardarCarton(data)
     setCartonData(data)
-    setScreen('card')
+    setScreen('waiting')
   }
 
   function handleReintentar() {
@@ -72,7 +74,8 @@ export default function App() {
   }
 
   if (screen === 'loading') return <Loading />
-  if (screen === 'card' && cartonData) return <Card data={cartonData} />
+  if (screen === 'waiting' && cartonData) return <Card data={cartonData} onVerCarton={() => setScreen('grid')} />
+  if (screen === 'grid' && cartonData) return <BingoGrid data={cartonData} />
   if (screen === 'error') return <ErrorScreen mensaje={errorMsg} onReintentar={handleReintentar} />
   return <Welcome onSubmit={handleObtenerCarton} />
 }

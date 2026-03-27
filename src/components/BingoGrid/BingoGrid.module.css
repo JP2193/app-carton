@@ -1,8 +1,9 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  width: min(96vw, 440px);
-  border: 1px solid #dfd0b9;
-  background: #dfd0b9;
-  gap: 1px;
+  grid-template-rows: repeat(5, 1fr);
+  width: 100vw;
+  height: 100dvh;
+  gap: 0;
+  overflow: hidden;
 }

@@ -12,38 +12,78 @@
   user-select: none;
 }
 
-.header {
-  position: relative;
+.content {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.5rem 1rem 0.4rem;
+  justify-content: center;
+  padding: 2rem 2rem 3rem;
   text-align: center;
+  gap: 0;
 }
 
 .titulo {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-size: 1.9rem;
+  font-size: 2rem;
   font-weight: 600;
   color: #3d2b1f;
   line-height: 1.1;
+  margin-bottom: 0.25rem;
 }
 
-.numero {
-  position: absolute;
-  top: 0.5rem;
-  right: 1rem;
+.subtitulo {
   font-family: 'Jost', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-size: 0.9rem;
+  font-weight: 300;
   color: #9e8a72;
+  letter-spacing: 0.08em;
+  margin-bottom: 2.5rem;
 }
 
-.main {
-  flex: 1;
+.mensaje {
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 0.25rem 0.5rem 0.5rem;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.hola {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #3d2b1f;
+  line-height: 1.2;
+}
+
+.info {
+  font-family: 'Jost', sans-serif;
+  font-size: 1rem;
+  color: #5a4030;
+}
+
+.espera {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.9rem;
+  color: #9e8a72;
+  line-height: 1.5;
+}
+
+.btn {
+  font-family: 'Jost', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #fdfaf5;
+  background: #3d2b1f;
+  border: none;
+  padding: 0.85rem 2.5rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn:active {
+  opacity: 0.8;
 }

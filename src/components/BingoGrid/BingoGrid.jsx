@@ -1,24 +1,19 @@
-import { useState } from 'react'
 import BingoCell from '../BingoCell/BingoCell.jsx'
-import { getTachadas, toggleTachada } from '../../utils/storage.js'
+import { useCancionesCantadas } from '../../hooks/useCancionesCantadas.js'
 import styles from './BingoGrid.module.css'
 
-export default function BingoGrid({ tracks, cartonId }) {
-  const [tachadas, setTachadas] = useState(() => getTachadas(cartonId))
-
-  function handleTocar(index) {
-    const nuevas = toggleTachada(cartonId, index)
-    setTachadas([...nuevas])
-  }
+export default function BingoGrid({ data }) {
+  const { tracks, playlistId } = data
+  const { cantadas, recienActivadas } = useCancionesCantadas(playlistId)
 
   return (
     <div className={styles.grid}>
-      {tracks.map((track, i) => (
+      {tracks.map((track) => (
         <BingoCell
-          key={i}
+          key={track.id}
           track={track}
-          tachada={tachadas.includes(i)}
-          onTocar={() => handleTocar(i)}
+          activa={cantadas.has(track.id)}
+          activando={recienActivadas.has(track.id)}
         />
       ))}
     </div>
