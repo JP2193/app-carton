@@ -360,3 +360,26 @@
 .modalContinuar:disabled {
   opacity: 0.6;
 }
+
+/* ─── Pantalla bloqueado ─────────────────────────────────────────────────────── */
+.bloqueadoIcon {
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+}
+
+.bloqueadoTitulo {
+  font-family: 'Jost', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #3d2b1f;
+  margin-bottom: 0.5rem;
+}
+
+.bloqueadoTexto {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: #9e8a72;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+}

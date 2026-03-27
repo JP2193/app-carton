@@ -57,11 +57,17 @@ export async function getInvitados(playlistId) {
 export async function marcarInvitadoAsignado(invitadoId, playlistId) {
   const { data: inv, error } = await supabase
     .from('invitados')
-    .select('id, nombre, apellido, carton_id, cartones(id, numero, track_ids)')
+    .select('id, nombre, apellido, carton_id, asignado_at, cartones(id, numero, track_ids)')
     .eq('id', invitadoId)
     .single()
   if (error) throw error
   if (!inv.carton_id) throw new Error('SIN_CARTON')
+  if (inv.asignado_at) {
+    const err = new Error('YA_ABIERTO')
+    err.nombre = inv.nombre
+    err.apellido = inv.apellido
+    throw err
+  }
 
   await supabase.rpc('marcar_invitado_asignado', { p_invitado_id: invitadoId })
 

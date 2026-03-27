@@ -20,6 +20,7 @@ export default function Welcome({ onCartonListo }) {
   const [pendiente, setPendiente] = useState(null)
   const [seleccionandoId, setSeleccionandoId] = useState(null)
   const [errorSobrante, setErrorSobrante] = useState('')
+  const [bloqueado, setBloqueado] = useState(null) // { nombre, apellido }
 
   useEffect(() => {
     async function init() {
@@ -64,11 +65,15 @@ export default function Welcome({ onCartonListo }) {
       const data = await marcarInvitadoAsignado(invitado.id, playlistId)
       onCartonListo(data)
     } catch (err) {
-      setErrorMsg(
-        err.message === 'SIN_CARTON'
-          ? 'Este invitado no tiene cartón asignado. Consultá al organizador.'
-          : 'Error de conexión. Intentá de nuevo.'
-      )
+      if (err.message === 'YA_ABIERTO') {
+        setBloqueado({ nombre: err.nombre, apellido: err.apellido })
+      } else {
+        setErrorMsg(
+          err.message === 'SIN_CARTON'
+            ? 'Este invitado no tiene cartón asignado. Consultá al organizador.'
+            : 'Error de conexión. Intentá de nuevo.'
+        )
+      }
       setSeleccionandoId(null)
     }
   }
@@ -156,6 +161,24 @@ export default function Welcome({ onCartonListo }) {
           </>
         )}
       </div>
+      {bloqueado && (
+        <div className={styles.overlay}>
+          <div className={styles.modal}>
+            <p className={styles.bloqueadoIcon}>⚠️</p>
+            <p className={styles.bloqueadoTitulo}>Este cartón ya fue abierto.</p>
+            <p className={styles.bloqueadoTexto}>
+              Si sos {bloqueado.nombre} {bloqueado.apellido}, consultá al organizador.
+            </p>
+            <button
+              className={styles.modalCancelar}
+              onClick={() => setBloqueado(null)}
+            >
+              ← Volver a la lista
+            </button>
+          </div>
+        </div>
+      )}
+
       {pendiente && (
         <div className={styles.overlay}>
           <div className={styles.modal}>
