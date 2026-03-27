@@ -47,9 +47,10 @@ export default function Welcome({ onCartonListo }) {
   const filtrados = useMemo(() => {
     if (!query.trim()) return invitados
     const q = normalizar(query)
-    return invitados.filter(
-      (inv) => normalizar(inv.nombre).includes(q) || normalizar(inv.apellido).includes(q)
-    )
+    return invitados.filter((inv) => {
+      const completo = normalizar(`${inv.nombre} ${inv.apellido}`)
+      return completo.includes(q)
+    })
   }, [query, invitados])
 
   async function handleSeleccionar(invitado) {
