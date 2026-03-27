@@ -33,16 +33,6 @@ export async function getTracksDePlaylist(playlistId) {
 export async function asignarCarton(playlistId, nombre, apellido) {
   const identificador = normalizar(`${nombre} ${apellido}`)
 
-  // Si ya tiene cartón asignado, devolver el mismo siempre
-  const { data: existente } = await supabase
-    .from('cartones')
-    .select('id, numero, track_ids')
-    .eq('nombre_normalizado', identificador)
-    .maybeSingle()
-
-  if (existente) return existente
-
-  // Asignar el siguiente disponible via RPC
   const { data, error } = await supabase.rpc('asignar_carton', {
     p_playlist_id: playlistId,
     p_nombre: `${nombre} ${apellido}`,
