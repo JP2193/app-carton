@@ -29,8 +29,19 @@ export default function App() {
     setScreen('welcome')
   }, [])
 
-  if (screen === 'waiting' && cartonData) return <Card data={cartonData} onVerCarton={() => setScreen('grid')} />
-  if (screen === 'grid' && cartonData) return <BingoGrid data={cartonData} onSesionInvalida={handleSesionInvalida} />
-  if (screen === 'error') return <ErrorScreen mensaje="Hubo un error inesperado." onReintentar={() => setScreen('welcome')} />
-  return <Welcome onCartonListo={handleCartonListo} />
+  let content
+  if (screen === 'waiting' && cartonData) content = <Card data={cartonData} onVerCarton={() => setScreen('grid')} />
+  else if (screen === 'grid' && cartonData) content = <BingoGrid data={cartonData} onSesionInvalida={handleSesionInvalida} />
+  else if (screen === 'error') content = <ErrorScreen mensaje="Hubo un error inesperado." onReintentar={() => setScreen('welcome')} />
+  else content = <Welcome onCartonListo={handleCartonListo} />
+
+  return (
+    <>
+      <div className="landscape-warning">
+        <span style={{ fontSize: '2rem' }}>↩️</span>
+        <p style={{ fontSize: '1rem', color: '#3d2b1f' }}>Girá tu celular para ver el cartón</p>
+      </div>
+      <div className="app-content">{content}</div>
+    </>
+  )
 }

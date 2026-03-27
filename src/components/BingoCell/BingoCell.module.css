@@ -17,10 +17,9 @@
 }
 
 .cname {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-weight: 600;
-  font-size: clamp(0.7rem, 3vw, 1rem);
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  font-size: clamp(0.65rem, 2.8vw, 0.88rem);
   color: #3d2b1f;
   line-height: 1.2;
   margin-bottom: 3px;
@@ -34,17 +33,19 @@
 .cartist {
   font-family: 'Jost', sans-serif;
   font-weight: 300;
-  font-size: clamp(0.5rem, 2vw, 0.7rem);
+  font-size: clamp(0.52rem, 1.8vw, 0.68rem);
   color: #9e8a72;
   line-height: 1.1;
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
-  max-width: 100%;
 }
 
-.activa .cname  { color: #ffffff; font-style: italic; }
-.activa .cartist { color: rgba(255, 255, 255, 0.8); }
+.celda.activa .cname  { color: #ffffff; }
+.celda.activa .cartist { color: rgba(255, 255, 255, 0.65); }
 
 @keyframes pulso {
   0%   { background: #4a7c59; transform: scale(1); }

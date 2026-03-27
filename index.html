@@ -18,6 +18,32 @@
         -webkit-font-smoothing: antialiased;
       }
       #root { min-height: 100dvh; }
+
+      @media (orientation: landscape) {
+        .landscape-warning {
+          display: flex;
+          position: fixed;
+          inset: 0;
+          background: #fdfaf5;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 16px;
+          z-index: 9999;
+          font-family: 'Jost', sans-serif;
+          text-align: center;
+          padding: 32px;
+        }
+        .app-content {
+          display: none;
+        }
+      }
+
+      @media (orientation: portrait) {
+        .landscape-warning {
+          display: none;
+        }
+      }
     </style>
   </head>
   <body>
