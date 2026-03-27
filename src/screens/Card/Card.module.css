@@ -16,41 +16,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 1rem 0.75rem;
+  padding: 0.25rem 1rem 0.5rem;
   text-align: center;
 }
 
-.logo {
+.titulo {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #3d2b1f;
-  letter-spacing: 0.02em;
-  margin-bottom: 0.15rem;
-}
-
-.fecha {
-  font-family: 'Jost', sans-serif;
-  font-weight: 300;
-  font-size: 0.75rem;
-  color: #9e8a72;
-  margin-bottom: 0.6rem;
-}
-
-.greeting {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 1.9rem;
+  font-size: 1.7rem;
   font-weight: 600;
   color: #3d2b1f;
   line-height: 1.1;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.15rem;
 }
 
 .numero {
   font-family: 'Jost', sans-serif;
-  font-size: 0.8rem;
+  font-size: 1rem;
+  font-weight: 500;
   color: #9e8a72;
 }
 
@@ -59,23 +42,5 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: 0.5rem 0.5rem 80px;
-}
-
-.footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  background: #fdfaf5;
-  border-top: 1px solid #dfd0b9;
-  padding: 0.6rem 1rem max(0.6rem, env(safe-area-inset-bottom));
-  text-align: center;
-}
-
-.footerText {
-  font-family: 'Jost', sans-serif;
-  font-size: 0.8rem;
-  color: #9e8a72;
+  padding: 0.25rem 0.5rem 0.5rem;
 }
