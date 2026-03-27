@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Welcome from './screens/Welcome/Welcome.jsx'
 import Card from './screens/Card/Card.jsx'
 import BingoGrid from './components/BingoGrid/BingoGrid.jsx'
 import ErrorScreen from './screens/Error/ErrorScreen.jsx'
-import { getCartonGuardado, guardarCarton } from './utils/storage.js'
+import { getCartonGuardado, guardarCarton, limpiarCarton } from './utils/storage.js'
 
 export default function App() {
   const [screen, setScreen] = useState('welcome')
@@ -23,8 +23,14 @@ export default function App() {
     setScreen('waiting')
   }
 
+  const handleSesionInvalida = useCallback(() => {
+    limpiarCarton()
+    setCartonData(null)
+    setScreen('welcome')
+  }, [])
+
   if (screen === 'waiting' && cartonData) return <Card data={cartonData} onVerCarton={() => setScreen('grid')} />
-  if (screen === 'grid' && cartonData) return <BingoGrid data={cartonData} />
+  if (screen === 'grid' && cartonData) return <BingoGrid data={cartonData} onSesionInvalida={handleSesionInvalida} />
   if (screen === 'error') return <ErrorScreen mensaje="Hubo un error inesperado." onReintentar={() => setScreen('welcome')} />
   return <Welcome onCartonListo={handleCartonListo} />
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { supabase } from '../lib/supabase.js'
 
-export function useCancionesCantadas(playlistId) {
+export function useCancionesCantadas(playlistId, { invitadoId, onSesionInvalida } = {}) {
   const [cantadas, setCantadas] = useState(new Set())
   const [recienActivadas, setRecienActivadas] = useState(new Set())
   const prevRef = useRef(new Set())
@@ -10,6 +10,19 @@ export function useCancionesCantadas(playlistId) {
     if (!playlistId) return
 
     async function fetchCantadas() {
+      // Verificar sesión válida
+      if (invitadoId) {
+        const { data: inv } = await supabase
+          .from('invitados')
+          .select('sesion_valida')
+          .eq('id', invitadoId)
+          .single()
+        if (inv && !inv.sesion_valida) {
+          onSesionInvalida?.()
+          return
+        }
+      }
+
       const { data } = await supabase
         .from('canciones_cantadas')
         .select('track_id')
@@ -39,7 +52,7 @@ export function useCancionesCantadas(playlistId) {
     fetchCantadas()
     const interval = setInterval(fetchCantadas, 5000)
     return () => clearInterval(interval)
-  }, [playlistId])
+  }, [playlistId, invitadoId, onSesionInvalida])
 
   return { cantadas, recienActivadas }
 }

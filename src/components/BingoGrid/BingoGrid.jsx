@@ -2,9 +2,9 @@ import BingoCell from '../BingoCell/BingoCell.jsx'
 import { useCancionesCantadas } from '../../hooks/useCancionesCantadas.js'
 import styles from './BingoGrid.module.css'
 
-export default function BingoGrid({ data }) {
-  const { tracks, playlistId } = data
-  const { cantadas, recienActivadas } = useCancionesCantadas(playlistId)
+export default function BingoGrid({ data, onSesionInvalida }) {
+  const { tracks, playlistId, invitadoId } = data
+  const { cantadas, recienActivadas } = useCancionesCantadas(playlistId, { invitadoId, onSesionInvalida })
 
   return (
     <div className={styles.grid}>

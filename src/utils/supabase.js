@@ -70,6 +70,7 @@ export async function marcarInvitadoAsignado(invitadoId, playlistId) {
   }
 
   await supabase.rpc('marcar_invitado_asignado', { p_invitado_id: invitadoId })
+  await supabase.from('invitados').update({ sesion_valida: true }).eq('id', invitadoId)
 
   const todosLosTracks = await getTracksDePlaylist(playlistId)
   const tracks = inv.cartones.track_ids
