@@ -1,5 +1,5 @@
 import BingoGrid from '../../components/BingoGrid/BingoGrid.jsx'
-import FloralDivider from '../../components/FloralDivider/FloralDivider.jsx'
+import floralImg from '../../../img/1.png'
 import styles from './Card.module.css'
 
 export default function Card({ data }) {
@@ -7,7 +7,7 @@ export default function Card({ data }) {
 
   return (
     <div className={styles.container}>
-      <FloralDivider position="top" />
+      <img src={floralImg} className={styles.floralTop} alt="" aria-hidden="true" />
 
       <header className={styles.header}>
         <span className={styles.logo}>♪ Bingo Musical · Clara &amp; Javier</span>
@@ -21,7 +21,6 @@ export default function Card({ data }) {
       </main>
 
       <footer className={styles.footer}>
-        <FloralDivider position="bottom" />
         <span className={styles.footerText}>Tocá para tachar&nbsp;•&nbsp;Gritá BINGO 🎤</span>
       </footer>
     </div>

@@ -6,6 +6,13 @@
   background: var(--bg, #fdfaf5);
 }
 
+.floralTop {
+  width: 100%;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
 .inner {
   width: 100%;
   max-width: 360px;

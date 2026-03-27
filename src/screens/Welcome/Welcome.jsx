@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import FloralDivider from '../../components/FloralDivider/FloralDivider.jsx'
+import floralImg from '../../../img/1.png'
 import styles from './Welcome.module.css'
 
 export default function Welcome({ onSubmit }) {
@@ -18,7 +18,7 @@ export default function Welcome({ onSubmit }) {
 
   return (
     <div className={styles.container}>
-      <FloralDivider position="top" />
+      <img src={floralImg} className={styles.floralTop} alt="" aria-hidden="true" />
       <div className={styles.inner}>
         <h1 className={styles.title}>♪ Bingo Musical</h1>
         <p className={styles.subtitle}>Clara &amp; Javier · 11 de Abril de 2026</p>

@@ -5,11 +5,18 @@
   background: #fdfaf5;
 }
 
+.floralTop {
+  width: 100%;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
 .header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.5rem 1rem 0.75rem;
+  padding: 0 1rem 0.75rem;
   text-align: center;
 }
 
@@ -52,7 +59,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: 0.5rem 0.5rem 0;
+  padding: 0.5rem 0.5rem 80px;
 }
 
 .footer {
@@ -60,16 +67,15 @@
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 10;
   background: #fdfaf5;
   border-top: 1px solid #dfd0b9;
-  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  padding: 0.6rem 1rem max(0.6rem, env(safe-area-inset-bottom));
+  text-align: center;
 }
 
 .footerText {
-  display: block;
-  text-align: center;
   font-family: 'Jost', sans-serif;
   font-size: 0.8rem;
   color: #9e8a72;
-  padding: 0.5rem 1rem;
 }
