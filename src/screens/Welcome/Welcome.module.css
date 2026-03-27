@@ -271,3 +271,92 @@
   opacity: 0.4;
   cursor: default;
 }
+
+/* ─── Modal de confirmación ──────────────────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(61, 43, 31, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1.5rem;
+  backdrop-filter: blur(2px);
+}
+
+.modal {
+  background: #fdfaf5;
+  border: 1px solid #dfd0b9;
+  padding: 2rem 1.75rem 1.5rem;
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.modalPregunta {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: #9e8a72;
+  letter-spacing: 0.04em;
+}
+
+.modalNombre {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #3d2b1f;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+.modalBtns {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.modalCancelar {
+  flex: 1;
+  padding: 0.8rem;
+  background: none;
+  border: 1px solid #dfd0b9;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.9rem;
+  color: #9e8a72;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.modalCancelar:not(:disabled):hover {
+  border-color: #b8935a;
+  color: #3d2b1f;
+}
+
+.modalContinuar {
+  flex: 1;
+  padding: 0.8rem;
+  background: #3d2b1f;
+  border: none;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fdfaf5;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.15s;
+}
+
+.modalContinuar:not(:disabled):active {
+  opacity: 0.8;
+}
+
+.modalContinuar:disabled {
+  opacity: 0.6;
+}

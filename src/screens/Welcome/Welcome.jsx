@@ -17,6 +17,7 @@ export default function Welcome({ onCartonListo }) {
   const [cargando, setCargando] = useState(true)
   const [errorMsg, setErrorMsg] = useState('')
   const [query, setQuery] = useState('')
+  const [pendiente, setPendiente] = useState(null)
   const [seleccionandoId, setSeleccionandoId] = useState(null)
   const [errorSobrante, setErrorSobrante] = useState('')
 
@@ -131,13 +132,12 @@ export default function Welcome({ onCartonListo }) {
                 filtrados.map((inv) => (
                   <button
                     key={inv.id}
-                    className={`${styles.invitadoItem} ${seleccionandoId === inv.id ? styles.seleccionando : ''}`}
-                    onClick={() => handleSeleccionar(inv)}
+                    className={styles.invitadoItem}
+                    onClick={() => setPendiente(inv)}
                     disabled={!!seleccionandoId}
                   >
                     <span className={styles.invNombre}>{inv.nombre}</span>
                     <span className={styles.invApellido}>{inv.apellido}</span>
-                    {seleccionandoId === inv.id && <span className={styles.dotLoader} />}
                   </button>
                 ))
               )}
@@ -156,6 +156,30 @@ export default function Welcome({ onCartonListo }) {
           </>
         )}
       </div>
+      {pendiente && (
+        <div className={styles.overlay}>
+          <div className={styles.modal}>
+            <p className={styles.modalPregunta}>¿Jugar como</p>
+            <p className={styles.modalNombre}>{pendiente.nombre} {pendiente.apellido}?</p>
+            <div className={styles.modalBtns}>
+              <button
+                className={styles.modalCancelar}
+                onClick={() => setPendiente(null)}
+                disabled={!!seleccionandoId}
+              >
+                Cancelar
+              </button>
+              <button
+                className={styles.modalContinuar}
+                onClick={() => { handleSeleccionar(pendiente); setPendiente(null) }}
+                disabled={!!seleccionandoId}
+              >
+                {seleccionandoId ? <span className={styles.dotLoader} /> : 'Continuar →'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
