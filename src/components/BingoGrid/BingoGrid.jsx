@@ -6,8 +6,13 @@ export default function BingoGrid({ data, onSesionInvalida }) {
   const { tracks, playlistId, invitadoId } = data
   const { cantadas, recienActivadas } = useCancionesCantadas(playlistId, { invitadoId, onSesionInvalida })
 
+  const is4x4 = tracks.length === 16
+  const gridStyle = is4x4
+    ? { gridTemplateColumns: 'repeat(4, 1fr)', gridTemplateRows: 'repeat(4, 1fr)' }
+    : { gridTemplateColumns: 'repeat(3, 1fr)', gridTemplateRows: 'repeat(5, 1fr)' }
+
   return (
-    <div className={styles.grid}>
+    <div className={styles.grid} style={gridStyle}>
       {tracks.map((track) => (
         <BingoCell
           key={track.id}
