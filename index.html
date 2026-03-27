@@ -19,7 +19,7 @@
       }
       #root { min-height: 100dvh; }
 
-      @media (orientation: landscape) {
+      @media (orientation: landscape) and (pointer: coarse) {
         .landscape-warning {
           display: flex;
           position: fixed;
@@ -35,12 +35,6 @@
           padding: 32px;
         }
         .app-content {
-          display: none;
-        }
-      }
-
-      @media (orientation: portrait) {
-        .landscape-warning {
           display: none;
         }
       }
