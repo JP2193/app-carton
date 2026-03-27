@@ -19,7 +19,8 @@
 .cname {
   font-family: 'Jost', sans-serif;
   font-weight: 500;
-  font-size: clamp(0.65rem, 2.8vw, 0.88rem);
+  font-size: clamp(0.7rem, 2.5vmin, 1.1rem);
+  font-size: clamp(0.7rem, 4cqi, 1.2rem);
   color: #3d2b1f;
   line-height: 1.2;
   margin-bottom: 3px;
@@ -33,7 +34,8 @@
 .cartist {
   font-family: 'Jost', sans-serif;
   font-weight: 300;
-  font-size: clamp(0.52rem, 1.8vw, 0.68rem);
+  font-size: clamp(0.55rem, 1.8vmin, 0.85rem);
+  font-size: clamp(0.55rem, 3cqi, 0.9rem);
   color: #9e8a72;
   line-height: 1.1;
   display: -webkit-box;

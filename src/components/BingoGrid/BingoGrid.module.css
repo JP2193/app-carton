@@ -7,4 +7,6 @@
   gap: 0;
   overflow: hidden;
   background: #dfd0b9;
+  container-type: size;
+  container-name: bingo-grid;
 }
