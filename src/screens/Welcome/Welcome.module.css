@@ -361,6 +361,14 @@
   opacity: 0.6;
 }
 
+.sobraForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin: 0.5rem 0 0.75rem;
+  text-align: left;
+}
+
 /* ─── Pantalla bloqueado ─────────────────────────────────────────────────────── */
 .bloqueadoIcon {
   font-size: 2rem;

@@ -5,7 +5,7 @@ import {
   getInvitados,
   marcarInvitadoAsignado,
   getTracksDePlaylist,
-  asignarCartonSobrante,
+  registrarSobrante,
   normalizar,
 } from '../../utils/supabase.js'
 import { getCartonGuardado } from '../../utils/storage.js'
@@ -21,6 +21,8 @@ export default function Welcome({ onCartonListo }) {
   const [seleccionandoId, setSeleccionandoId] = useState(null)
   const [errorSobrante, setErrorSobrante] = useState('')
   const [bloqueado, setBloqueado] = useState(null) // { nombre, apellido }
+  const [mostrarFormSobrante, setMostrarFormSobrante] = useState(false)
+  const [formSobrante, setFormSobrante] = useState({ nombre: '', apellido: '' })
 
   useEffect(() => {
     async function init() {
@@ -78,31 +80,36 @@ export default function Welcome({ onCartonListo }) {
     }
   }
 
-  async function handleSobrante() {
-    if (!playlistId || seleccionandoId) return
+  async function handleRegistrarSobrante() {
+    const { nombre, apellido } = formSobrante
+    if (!nombre.trim() || !apellido.trim()) {
+      setErrorSobrante('Completá tu nombre y apellido.')
+      return
+    }
+    if (seleccionandoId) return
     setSeleccionandoId('sobrante')
     setErrorSobrante('')
     try {
-      const carton = await asignarCartonSobrante(playlistId)
-      if (!carton) {
-        setErrorSobrante('No hay cartones disponibles. Consultá al organizador.')
-        setSeleccionandoId(null)
-        return
-      }
+      const result = await registrarSobrante(playlistId, nombre.trim(), apellido.trim())
       const todosLosTracks = await getTracksDePlaylist(playlistId)
-      const tracks = carton.track_ids
+      const tracks = result.track_ids
         .map((id) => todosLosTracks.find((t) => t.id === id))
         .filter(Boolean)
       onCartonListo({
-        invitadoId: null,
-        cartonId: carton.id,
+        invitadoId: result.invitado_id,
+        cartonId: result.carton_id,
         playlistId,
-        numero: carton.numero,
-        trackIds: carton.track_ids,
+        nombre: `${nombre.trim()} ${apellido.trim()}`,
+        numero: result.numero,
+        trackIds: result.track_ids,
         tracks,
       })
-    } catch {
-      setErrorSobrante('Error de conexión. Intentá de nuevo.')
+    } catch (err) {
+      setErrorSobrante(
+        err.message === 'SIN_CARTONES'
+          ? 'No hay cartones disponibles. Consultá al organizador.'
+          : 'Error de conexión. Intentá de nuevo.'
+      )
       setSeleccionandoId(null)
     }
   }
@@ -153,7 +160,7 @@ export default function Welcome({ onCartonListo }) {
 
             <button
               className={styles.btnSobrante}
-              onClick={handleSobrante}
+              onClick={() => { setMostrarFormSobrante(true); setErrorSobrante('') }}
               disabled={!!seleccionandoId}
             >
               ¿No encontrás tu nombre? →
@@ -175,6 +182,49 @@ export default function Welcome({ onCartonListo }) {
             >
               ← Volver a la lista
             </button>
+          </div>
+        </div>
+      )}
+
+      {mostrarFormSobrante && (
+        <div className={styles.overlay}>
+          <div className={styles.modal}>
+            <p className={styles.modalPregunta}>Ingresá tu nombre y apellido</p>
+            <div className={styles.sobraForm}>
+              <input
+                className={styles.input}
+                placeholder="Nombre"
+                value={formSobrante.nombre}
+                onChange={(e) => setFormSobrante((f) => ({ ...f, nombre: e.target.value }))}
+                autoComplete="off"
+                disabled={!!seleccionandoId}
+              />
+              <input
+                className={styles.input}
+                placeholder="Apellido"
+                value={formSobrante.apellido}
+                onChange={(e) => setFormSobrante((f) => ({ ...f, apellido: e.target.value }))}
+                autoComplete="off"
+                disabled={!!seleccionandoId}
+              />
+              {errorSobrante && <p className={styles.errorMsg}>{errorSobrante}</p>}
+            </div>
+            <div className={styles.modalBtns}>
+              <button
+                className={styles.modalCancelar}
+                onClick={() => { setMostrarFormSobrante(false); setErrorSobrante(''); setFormSobrante({ nombre: '', apellido: '' }) }}
+                disabled={!!seleccionandoId}
+              >
+                Cancelar
+              </button>
+              <button
+                className={styles.modalContinuar}
+                onClick={handleRegistrarSobrante}
+                disabled={!!seleccionandoId}
+              >
+                {seleccionandoId ? <span className={styles.dotLoader} /> : 'Obtener cartón →'}
+              </button>
+            </div>
           </div>
         </div>
       )}

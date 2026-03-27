@@ -88,10 +88,14 @@ export async function marcarInvitadoAsignado(invitadoId, playlistId) {
   }
 }
 
-export async function asignarCartonSobrante(playlistId) {
-  const { data, error } = await supabase.rpc('asignar_carton_sobrante', {
+export async function registrarSobrante(playlistId, nombre, apellido) {
+  const { data, error } = await supabase.rpc('registrar_sobrante', {
     p_playlist_id: playlistId,
+    p_nombre: nombre,
+    p_apellido: apellido,
   })
   if (error) throw error
-  return Array.isArray(data) ? data[0] : data
+  const result = Array.isArray(data) ? data[0] : data
+  if (!result) throw new Error('SIN_CARTONES')
+  return result
 }
