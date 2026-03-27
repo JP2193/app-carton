@@ -49,6 +49,7 @@ export async function getInvitados(playlistId) {
     .from('invitados')
     .select('id, nombre, apellido')
     .eq('playlist_id', playlistId)
+    .neq('oculto', true)
     .order('apellido', { ascending: true })
   if (error) throw error
   return data ?? []
