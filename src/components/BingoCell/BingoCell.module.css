@@ -18,6 +18,7 @@
 
 .cname {
   font-family: 'Jost', sans-serif;
+  font-style: normal;
   font-weight: 500;
   font-size: clamp(0.7rem, 2.5vmin, 1.1rem);
   font-size: clamp(0.7rem, 4cqi, 1.2rem);
