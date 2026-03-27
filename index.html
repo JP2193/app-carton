@@ -19,6 +19,8 @@
       }
       #root { min-height: 100dvh; }
 
+      .landscape-warning { display: none; }
+
       @media (orientation: landscape) and (pointer: coarse) {
         .landscape-warning {
           display: flex;
@@ -34,9 +36,7 @@
           text-align: center;
           padding: 32px;
         }
-        .app-content {
-          display: none;
-        }
+        .app-content { display: none; }
       }
     </style>
   </head>
