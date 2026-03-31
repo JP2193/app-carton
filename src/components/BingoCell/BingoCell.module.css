@@ -7,11 +7,14 @@
   text-align: center;
   background: #fdfaf5;
   border: 0.5px solid #dfd0b9;
-  transition: background 0.6s ease;
+  transition: background 0.3s ease;
   overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.activa {
+.tachada {
   background: #4a7c59;
   border-color: #3d6b4a;
 }
@@ -43,8 +46,8 @@
   overflow: hidden;
 }
 
-.celda.activa .cname  { color: #ffffff; }
-.celda.activa .cartist { color: rgba(255, 255, 255, 0.65); }
+.celda.tachada .cname  { color: #ffffff; }
+.celda.tachada .cartist { color: rgba(255, 255, 255, 0.65); }
 
 @keyframes pulso {
   0%   { background: #4a7c59; transform: scale(1); }

@@ -1,10 +1,32 @@
+import { useState, useEffect } from 'react'
 import BingoCell from '../BingoCell/BingoCell.jsx'
-import { useCancionesCantadas } from '../../hooks/useCancionesCantadas.js'
 import styles from './BingoGrid.module.css'
 
-export default function BingoGrid({ data, onSesionInvalida }) {
-  const { tracks, playlistId, invitadoId } = data
-  const { cantadas, recienActivadas } = useCancionesCantadas(playlistId, { invitadoId, onSesionInvalida })
+export default function BingoGrid({ data }) {
+  const { tracks, cartonId } = data
+  const storageKey = `tachadas_${cartonId}`
+
+  const [tachadas, setTachadas] = useState(() => {
+    try {
+      const raw = localStorage.getItem(storageKey)
+      return raw ? new Set(JSON.parse(raw)) : new Set()
+    } catch {
+      return new Set()
+    }
+  })
+
+  useEffect(() => {
+    localStorage.setItem(storageKey, JSON.stringify([...tachadas]))
+  }, [tachadas, storageKey])
+
+  function toggleTachada(trackId) {
+    setTachadas((prev) => {
+      const next = new Set(prev)
+      if (next.has(trackId)) next.delete(trackId)
+      else next.add(trackId)
+      return next
+    })
+  }
 
   const is4x4 = tracks.length === 16
   const gridStyle = is4x4
@@ -17,8 +39,8 @@ export default function BingoGrid({ data, onSesionInvalida }) {
         <BingoCell
           key={track.id}
           track={track}
-          activa={cantadas.has(track.id)}
-          activando={recienActivadas.has(track.id)}
+          tachada={tachadas.has(track.id)}
+          onToggle={() => toggleTachada(track.id)}
         />
       ))}
     </div>
