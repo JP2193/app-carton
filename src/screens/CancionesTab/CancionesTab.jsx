@@ -19,13 +19,10 @@ export default function CancionesTab({ data }) {
     async function fetchCantadas() {
       const { data: rows } = await supabase
         .from('canciones_cantadas')
-        .select('track_id, created_at')
+        .select('track_id')
         .eq('playlist_id', playlistId)
-        .order('created_at', { ascending: false })
-      if (rows) {
-        setOrdenIds(rows.map((r) => r.track_id))
-        setCargando(false)
-      }
+      setOrdenIds(rows ? rows.map((r) => r.track_id) : [])
+      setCargando(false)
     }
     fetchCantadas()
     const interval = setInterval(fetchCantadas, 5000)
