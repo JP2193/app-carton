@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Welcome from './screens/Welcome/Welcome.jsx'
 import Card from './screens/Card/Card.jsx'
-import BingoGrid from './components/BingoGrid/BingoGrid.jsx'
+import BingoScreen from './screens/BingoScreen/BingoScreen.jsx'
 import ErrorScreen from './screens/Error/ErrorScreen.jsx'
 import { getCartonGuardado, guardarCarton } from './utils/storage.js'
 
@@ -23,9 +23,14 @@ export default function App() {
     setScreen('waiting')
   }
 
+  function handleSalir() {
+    setCartonData(null)
+    setScreen('welcome')
+  }
+
   let content
   if (screen === 'waiting' && cartonData) content = <Card data={cartonData} onVerCarton={() => setScreen('grid')} />
-  else if (screen === 'grid' && cartonData) content = <BingoGrid data={cartonData} />
+  else if (screen === 'grid' && cartonData) content = <BingoScreen data={cartonData} onSalir={handleSalir} />
   else if (screen === 'error') content = <ErrorScreen mensaje="Hubo un error inesperado." onReintentar={() => setScreen('welcome')} />
   else content = <Welcome onCartonListo={handleCartonListo} />
 

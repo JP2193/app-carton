@@ -1,0 +1,64 @@
+.container {
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: #fdfaf5;
+}
+
+.hint {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.95rem;
+  color: #9e8a72;
+  text-align: center;
+  padding: 2rem 1.5rem;
+}
+
+.lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid #ede4d6;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.nombre {
+  font-family: 'Jost', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #3d2b1f;
+  line-height: 1.2;
+}
+
+.artista {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: #9e8a72;
+  line-height: 1.2;
+}
+
+.badge {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #4a7c59;
+  border: 1px solid #4a7c59;
+  border-radius: 20px;
+  padding: 2px 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}

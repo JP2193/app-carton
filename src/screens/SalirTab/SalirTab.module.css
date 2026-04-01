@@ -1,0 +1,118 @@
+.container {
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: #fdfaf5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 2rem;
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.icono {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.nombre {
+  font-family: 'Jost', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #3d2b1f;
+}
+
+.subtexto {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.85rem;
+  color: #9e8a72;
+  margin-bottom: 1.5rem;
+}
+
+.pregunta {
+  font-family: 'Jost', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #3d2b1f;
+}
+
+.descripcion {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.9rem;
+  color: #7a6a5a;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.error {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.85rem;
+  color: #c0392b;
+}
+
+.btnSalir {
+  margin-top: 1rem;
+  background: #3d2b1f;
+  color: #fdfaf5;
+  border: none;
+  font-family: 'Jost', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.75rem 2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  transition: opacity 0.15s;
+}
+
+.btnSalir:active {
+  opacity: 0.8;
+}
+
+.btns {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.btnCancelar {
+  flex: 1;
+  background: none;
+  border: 1px solid #dfd0b9;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.95rem;
+  color: #9e8a72;
+  padding: 0.7rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btnConfirmar {
+  flex: 1;
+  background: #c0392b;
+  border: none;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: white;
+  padding: 0.7rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.btnConfirmar:disabled,
+.btnCancelar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

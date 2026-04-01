@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  background: #dfd0b9;
+}
+
+.tabBar {
+  display: flex;
+  background: #fdfaf5;
+  border-bottom: 1px solid #dfd0b9;
+  flex-shrink: 0;
+  height: 48px;
+}
+
+.tab {
+  flex: 1;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #9e8a72;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tab.active {
+  color: #3d2b1f;
+  font-weight: 600;
+  border-bottom-color: #4a7c59;
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
