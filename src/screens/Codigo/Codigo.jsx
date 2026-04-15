@@ -23,12 +23,12 @@ export default function Codigo({ onCodigoValido }) {
     setCargando(true)
     setError('')
     try {
-      const valido = await validarCodigoEvento(id)
-      if (!valido) {
-        setError('Código no válido. Verificá con el organizador.')
+      const playlistId = await validarCodigoEvento(id)
+      if (!playlistId) {
+        setError('Código no válido o evento no disponible. Verificá con el organizador.')
         return
       }
-      onCodigoValido(id)
+      onCodigoValido(playlistId)
     } catch {
       setError('Error de conexión. Verificá el WiFi e intentá de nuevo.')
     } finally {

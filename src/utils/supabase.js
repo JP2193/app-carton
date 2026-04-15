@@ -8,16 +8,13 @@ export function normalizar(str = '') {
     .trim()
 }
 
-export async function validarCodigoEvento(playlistId) {
-  // Verifica que exista al menos un invitado para ese playlist_id
-  // (invitados tiene política de lectura pública)
-  const { data, error } = await supabase
-    .from('invitados')
-    .select('id')
-    .eq('playlist_id', playlistId)
-    .limit(1)
-  if (error) return false
-  return true // devuelve true aunque no haya invitados aún; false solo si hay error
+export async function validarCodigoEvento(codigo) {
+  // Busca el playlist_id activo del organizador cuyo user_id empieza con el código ingresado
+  const { data, error } = await supabase.rpc('get_playlist_por_codigo', {
+    p_codigo: codigo.toLowerCase(),
+  })
+  if (error || !data) return null
+  return data // playlist_id (UUID) del evento activo
 }
 
 export async function getTracksDePlaylist(playlistId) {
