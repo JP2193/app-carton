@@ -2,13 +2,21 @@ import { useState, useEffect } from 'react'
 import BingoCell from '../BingoCell/BingoCell.jsx'
 import styles from './BingoGrid.module.css'
 
+// Dado un track count, devuelve la cantidad de columnas más legible para mobile.
+// Cubre todos los productos posibles con cols 2-4 y filas 2-5.
 function colsFromTrackCount(count) {
-  if (count === 9)  return 3  // 3×3
-  if (count === 12) return 4  // 4×3
-  if (count === 15) return 5  // 5×3
-  if (count === 16) return 4  // 4×4
-  if (count === 20) return 5  // 5×4
-  return 3                    // fallback
+  const map = {
+    4:  2,  // 2×2
+    6:  3,  // 3×2
+    8:  4,  // 4×2
+    9:  3,  // 3×3
+    10: 2,  // 2×5
+    12: 3,  // 3×4
+    15: 3,  // 3×5
+    16: 4,  // 4×4
+    20: 4,  // 4×5
+  }
+  return map[count] ?? 3
 }
 
 export default function BingoGrid({ data }) {
