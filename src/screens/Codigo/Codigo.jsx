@@ -2,18 +2,16 @@ import { useState, useEffect } from 'react'
 import { validarCodigoEvento } from '../../utils/supabase.js'
 import styles from './Codigo.module.css'
 
-export default function Codigo({ onCodigoValido }) {
+export default function Codigo({ onCodigoValido, codigoInicial }) {
   const [codigo, setCodigo] = useState('')
   const [cargando, setCargando] = useState(false)
   const [error, setError] = useState('')
 
-  // Soporte para link directo: ?e=PLAYLIST_ID
+  // Auto-ingresar si viene un código desde la URL
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const e = params.get('e')
-    if (e) {
-      setCodigo(e)
-      handleIngresar(e)
+    if (codigoInicial) {
+      setCodigo(codigoInicial)
+      handleIngresar(codigoInicial)
     }
   }, [])
 

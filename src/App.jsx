@@ -11,6 +11,9 @@ export default function App() {
   const [playlistId, setPlaylistId] = useState(null)
   const [cartonData, setCartonData] = useState(null)
 
+  // Código desde pathname: https://bingo-boda.vercel.app/1AEAA558
+  const codigoDesdeUrl = window.location.pathname.slice(1).trim().toUpperCase() || null
+
   useEffect(() => {
     const guardado = getCartonGuardado()
     if (guardado) {
@@ -41,7 +44,7 @@ export default function App() {
   else if (screen === 'grid' && cartonData) content = <BingoScreen data={cartonData} onSalir={handleSalir} />
   else if (screen === 'error') content = <ErrorScreen mensaje="Hubo un error inesperado." onReintentar={() => setScreen('codigo')} />
   else if (screen === 'welcome' && playlistId) content = <Welcome playlistId={playlistId} onCartonListo={handleCartonListo} />
-  else content = <Codigo onCodigoValido={handleCodigoValido} />
+  else content = <Codigo onCodigoValido={handleCodigoValido} codigoInicial={codigoDesdeUrl} />
 
   return (
     <>
