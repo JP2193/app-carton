@@ -1,7 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import floralImg from '../../../img/1.png'
 import {
-  getPlaylistActiva,
   getInvitados,
   marcarInvitadoAsignado,
   getTracksDePlaylist,
@@ -11,8 +9,7 @@ import {
 import { getCartonGuardado } from '../../utils/storage.js'
 import styles from './Welcome.module.css'
 
-export default function Welcome({ onCartonListo }) {
-  const [playlistId, setPlaylistId] = useState(null)
+export default function Welcome({ playlistId, onCartonListo }) {
   const [invitados, setInvitados] = useState([])
   const [cargando, setCargando] = useState(true)
   const [errorMsg, setErrorMsg] = useState('')
@@ -20,20 +17,14 @@ export default function Welcome({ onCartonListo }) {
   const [pendiente, setPendiente] = useState(null)
   const [seleccionandoId, setSeleccionandoId] = useState(null)
   const [errorSobrante, setErrorSobrante] = useState('')
-  const [bloqueado, setBloqueado] = useState(null) // { nombre, apellido }
+  const [bloqueado, setBloqueado] = useState(null)
   const [mostrarFormSobrante, setMostrarFormSobrante] = useState(false)
   const [formSobrante, setFormSobrante] = useState({ nombre: '', apellido: '' })
 
   useEffect(() => {
     async function init() {
       try {
-        const pid = await getPlaylistActiva()
-        if (!pid) {
-          setErrorMsg('El evento no está configurado todavía. Consultá al organizador.')
-          return
-        }
-        setPlaylistId(pid)
-        const lista = await getInvitados(pid)
+        const lista = await getInvitados(playlistId)
         setInvitados(lista)
       } catch {
         setErrorMsg('Error de conexión. Verificá el WiFi e intentá de nuevo.')
@@ -42,15 +33,14 @@ export default function Welcome({ onCartonListo }) {
       }
     }
     init()
-  }, [])
+  }, [playlistId])
 
   const filtrados = useMemo(() => {
     if (!query.trim()) return invitados
     const q = normalizar(query)
-    return invitados.filter((inv) => {
-      const completo = normalizar(`${inv.nombre} ${inv.apellido}`)
-      return completo.includes(q)
-    })
+    return invitados.filter((inv) =>
+      normalizar(`${inv.nombre} ${inv.apellido}`).includes(q)
+    )
   }, [query, invitados])
 
   async function handleSeleccionar(invitado) {
@@ -117,22 +107,22 @@ export default function Welcome({ onCartonListo }) {
 
   return (
     <div className={styles.container}>
-      <img src={floralImg} className={styles.floralTop} alt="" aria-hidden="true" />
-      <div className={styles.inner}>
-        <h1 className={styles.title}>♪ Bingo Musical</h1>
-        <p className={styles.subtitle}>Clara &amp; Javier · 11 de Abril de 2026</p>
+      <div className={styles.header}>
+        <h1 className={styles.title}>BINGO MUSICAL</h1>
+      </div>
 
+      <div className={styles.inner}>
         {cargando ? (
           <p className={styles.hint}>Cargando lista...</p>
         ) : errorMsg && !invitados.length ? (
           <p className={styles.errorMsg}>{errorMsg}</p>
         ) : (
           <>
-            <p className={styles.instruccion}>Buscá tu nombre:</p>
+            <p className={styles.instruccion}>Buscá tu nombre</p>
             <input
               className={styles.searchInput}
               type="text"
-              placeholder="escribí tu nombre..."
+              placeholder="Escribí tu nombre..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               autoComplete="off"
@@ -169,6 +159,8 @@ export default function Welcome({ onCartonListo }) {
           </>
         )}
       </div>
+
+      {/* Modal: cartón ya abierto */}
       {bloqueado && (
         <div className={styles.overlay}>
           <div className={styles.modal}>
@@ -177,16 +169,14 @@ export default function Welcome({ onCartonListo }) {
             <p className={styles.bloqueadoTexto}>
               Si sos {bloqueado.nombre} {bloqueado.apellido}, consultá al organizador.
             </p>
-            <button
-              className={styles.modalCancelar}
-              onClick={() => setBloqueado(null)}
-            >
+            <button className={styles.modalCancelar} onClick={() => setBloqueado(null)}>
               ← Volver a la lista
             </button>
           </div>
         </div>
       )}
 
+      {/* Modal: sobrante */}
       {mostrarFormSobrante && (
         <div className={styles.overlay}>
           <div className={styles.modal}>
@@ -230,6 +220,7 @@ export default function Welcome({ onCartonListo }) {
         </div>
       )}
 
+      {/* Modal: confirmar selección */}
       {pendiente && (
         <div className={styles.overlay}>
           <div className={styles.modal}>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import Codigo from './screens/Codigo/Codigo.jsx'
 import Welcome from './screens/Welcome/Welcome.jsx'
 import Card from './screens/Card/Card.jsx'
 import BingoScreen from './screens/BingoScreen/BingoScreen.jsx'
@@ -6,16 +7,23 @@ import ErrorScreen from './screens/Error/ErrorScreen.jsx'
 import { getCartonGuardado, guardarCarton } from './utils/storage.js'
 
 export default function App() {
-  const [screen, setScreen] = useState('welcome')
+  const [screen, setScreen] = useState('codigo')
+  const [playlistId, setPlaylistId] = useState(null)
   const [cartonData, setCartonData] = useState(null)
 
   useEffect(() => {
     const guardado = getCartonGuardado()
     if (guardado) {
       setCartonData(guardado)
+      setPlaylistId(guardado.playlistId)
       setScreen('waiting')
     }
   }, [])
+
+  function handleCodigoValido(id) {
+    setPlaylistId(id)
+    setScreen('welcome')
+  }
 
   function handleCartonListo(data) {
     guardarCarton(data)
@@ -31,14 +39,15 @@ export default function App() {
   let content
   if (screen === 'waiting' && cartonData) content = <Card data={cartonData} onVerCarton={() => setScreen('grid')} />
   else if (screen === 'grid' && cartonData) content = <BingoScreen data={cartonData} onSalir={handleSalir} />
-  else if (screen === 'error') content = <ErrorScreen mensaje="Hubo un error inesperado." onReintentar={() => setScreen('welcome')} />
-  else content = <Welcome onCartonListo={handleCartonListo} />
+  else if (screen === 'error') content = <ErrorScreen mensaje="Hubo un error inesperado." onReintentar={() => setScreen('codigo')} />
+  else if (screen === 'welcome' && playlistId) content = <Welcome playlistId={playlistId} onCartonListo={handleCartonListo} />
+  else content = <Codigo onCodigoValido={handleCodigoValido} />
 
   return (
     <>
       <div className="landscape-warning">
         <span style={{ fontSize: '2rem' }}>↩️</span>
-        <p style={{ fontSize: '1rem', color: '#3d2b1f' }}>Girá tu celular para ver el cartón</p>
+        <p style={{ fontSize: '1rem' }}>Girá tu celular para ver el cartón</p>
       </div>
       <div className="app-content">{content}</div>
     </>

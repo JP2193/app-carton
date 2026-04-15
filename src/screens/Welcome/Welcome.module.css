@@ -2,167 +2,74 @@
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background: var(--bg, #fdfaf5);
+  background: #111;
 }
 
-.floralTop {
-  width: 100%;
-  display: block;
-  pointer-events: none;
-  user-select: none;
-}
-
-.inner {
-  width: 100%;
-  max-width: 360px;
-  padding: 0 1.5rem 3rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.header {
+  padding: 2rem 1.5rem 1.5rem;
+  text-align: center;
 }
 
 .title {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 2.6rem;
-  font-weight: 600;
-  color: #3d2b1f;
-  text-align: center;
-  margin-bottom: 0.5rem;
-  line-height: 1.1;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem;
+  letter-spacing: 0.1em;
+  color: #FFD600;
+  line-height: 1;
+  margin: 0;
 }
 
-.subtitle {
-  font-family: 'Jost', sans-serif;
-  font-weight: 300;
-  font-size: 0.95rem;
-  color: #9e8a72;
-  text-align: center;
-  margin-bottom: 1.75rem;
-  letter-spacing: 0.02em;
-}
-
-.divider {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  width: 100%;
-  margin-bottom: 2rem;
-}
-
-.dividerLine {
+.inner {
   flex: 1;
-  height: 1px;
-  background: #dfd0b9;
-}
-
-.form {
   width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 0 1.25rem 3rem;
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
 }
 
-.fieldGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-
-.label {
-  font-family: 'Jost', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: #9e8a72;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.input {
-  width: 100%;
-  padding: 0.875rem 1rem;
-  border: 1px solid #dfd0b9;
-  border-radius: 4px;
-  font-family: 'Jost', sans-serif;
-  font-size: 16px;
-  color: #3d2b1f;
-  background: #ffffff;
-  outline: none;
-  transition: border-color 0.15s;
-}
-
-.input::placeholder {
-  color: #c4b49e;
-}
-
-.input:focus {
-  border-color: #b8935a;
-}
-
-.button {
-  width: 100%;
-  margin-top: 0.25rem;
-  padding: 0.9rem 1rem;
-  background: #3d2b1f;
-  color: #fdfaf5;
-  border: none;
-  border-radius: 0;
-  font-family: 'Jost', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  transition: background 0.15s, opacity 0.15s;
-  touch-action: manipulation;
-}
-
-.button:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
-
-.button:not(:disabled):active {
-  background: #2a1e16;
-}
-
-/* ─── Buscador ────────────────────────────────────────────────────────────────── */
 .instruccion {
-  font-family: 'Jost', sans-serif;
-  font-size: 0.85rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
   font-weight: 500;
-  color: #9e8a72;
-  letter-spacing: 0.04em;
+  color: #888;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  align-self: flex-start;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .searchInput {
   width: 100%;
-  padding: 0.8rem 1rem;
-  border: 1px solid #dfd0b9;
+  padding: 0.875rem 1rem;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
   border-radius: 4px;
-  font-family: 'Jost', sans-serif;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
   font-size: 16px;
-  color: #3d2b1f;
-  background: #ffffff;
   outline: none;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.75rem;
   transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+
+.searchInput::placeholder {
+  color: #444;
 }
 
 .searchInput:focus {
-  border-color: #b8935a;
+  border-color: #FFD600;
 }
 
 .listaWrap {
   width: 100%;
-  max-height: 45vh;
+  flex: 1;
+  max-height: 50vh;
   overflow-y: auto;
-  border: 1px solid #dfd0b9;
+  border: 1px solid #2a2a2a;
   border-radius: 4px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .invitadoItem {
@@ -170,10 +77,10 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1rem;
+  padding: 0.875rem 1rem;
   border: none;
-  border-bottom: 1px solid #ede4d8;
-  background: #ffffff;
+  border-bottom: 1px solid #2a2a2a;
+  background: #1a1a1a;
   cursor: pointer;
   text-align: left;
   transition: background 0.12s;
@@ -186,37 +93,79 @@
 
 .invitadoItem:not(:disabled):active,
 .invitadoItem:not(:disabled):hover {
-  background: #faf4ec;
+  background: #222;
 }
 
 .invitadoItem:disabled {
   cursor: default;
 }
 
-.seleccionando {
-  background: #faf4ec;
-  opacity: 0.7;
-}
-
 .invNombre {
-  font-family: 'Jost', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 0.95rem;
   font-weight: 500;
-  color: #3d2b1f;
+  color: #fff;
 }
 
 .invApellido {
-  font-family: 'Jost', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 0.9rem;
-  font-weight: 300;
-  color: #9e8a72;
+  font-weight: 400;
+  color: #888;
 }
 
+.sinResultados {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  color: #666;
+  padding: 1rem;
+  text-align: center;
+}
+
+.hint {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+}
+
+.errorMsg {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  color: #e74c3c;
+  text-align: center;
+  padding: 0.4rem 0;
+}
+
+.btnSobrante {
+  background: none;
+  border: none;
+  color: #555;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  cursor: pointer;
+  padding: 0.75rem 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s;
+  align-self: center;
+}
+
+.btnSobrante:not(:disabled):hover {
+  color: #888;
+}
+
+.btnSobrante:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ─── Loader ─────────────────────────────────────────────────────────────────── */
 .dotLoader {
   width: 14px;
   height: 14px;
-  border: 2px solid #dfd0b9;
-  border-top-color: #b8935a;
+  border: 2px solid rgba(255,255,255,0.15);
+  border-top-color: #FFD600;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   margin-left: auto;
@@ -227,67 +176,23 @@
   to { transform: rotate(360deg); }
 }
 
-.sinResultados {
-  font-family: 'Jost', sans-serif;
-  font-size: 0.85rem;
-  color: #9e8a72;
-  padding: 1rem;
-  text-align: center;
-}
-
-.hint {
-  font-family: 'Jost', sans-serif;
-  font-size: 0.9rem;
-  color: #9e8a72;
-  text-align: center;
-}
-
-.errorMsg {
-  font-family: 'Jost', sans-serif;
-  font-size: 0.85rem;
-  color: #c0392b;
-  text-align: center;
-  padding: 0.5rem 0;
-}
-
-.btnSobrante {
-  background: none;
-  border: none;
-  color: #c4b49e;
-  font-family: 'Jost', sans-serif;
-  font-size: 0.78rem;
-  cursor: pointer;
-  padding: 0.75rem 0;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  transition: color 0.15s;
-}
-
-.btnSobrante:not(:disabled):hover {
-  color: #9e8a72;
-}
-
-.btnSobrante:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
-
-/* ─── Modal de confirmación ──────────────────────────────────────────────────── */
+/* ─── Modal overlay ──────────────────────────────────────────────────────────── */
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(61, 43, 31, 0.45);
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 100;
   padding: 1.5rem;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(3px);
 }
 
 .modal {
-  background: #fdfaf5;
-  border: 1px solid #dfd0b9;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
   padding: 2rem 1.75rem 1.5rem;
   width: 100%;
   max-width: 320px;
@@ -298,20 +203,20 @@
 }
 
 .modalPregunta {
-  font-family: 'Jost', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 300;
-  color: #9e8a72;
-  letter-spacing: 0.04em;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #888;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .modalNombre {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #3d2b1f;
-  line-height: 1.2;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 0.05em;
+  color: #fff;
+  line-height: 1.1;
   margin-bottom: 0.75rem;
 }
 
@@ -324,37 +229,40 @@
   flex: 1;
   padding: 0.8rem;
   background: none;
-  border: 1px solid #dfd0b9;
-  font-family: 'Jost', sans-serif;
+  border: 1px solid #333;
+  border-radius: 4px;
+  font-family: 'DM Sans', sans-serif;
   font-size: 0.9rem;
-  color: #9e8a72;
+  color: #888;
   cursor: pointer;
   transition: border-color 0.15s, color 0.15s;
 }
 
 .modalCancelar:not(:disabled):hover {
-  border-color: #b8935a;
-  color: #3d2b1f;
+  border-color: #555;
+  color: #ccc;
 }
 
 .modalContinuar {
   flex: 1;
   padding: 0.8rem;
-  background: #3d2b1f;
+  background: #FFD600;
   border: none;
-  font-family: 'Jost', sans-serif;
+  border-radius: 4px;
+  font-family: 'DM Sans', sans-serif;
   font-size: 0.9rem;
-  font-weight: 500;
-  color: #fdfaf5;
+  font-weight: 600;
+  color: #111;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: opacity 0.15s;
+  touch-action: manipulation;
 }
 
 .modalContinuar:not(:disabled):active {
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 .modalContinuar:disabled {
@@ -369,25 +277,50 @@
   text-align: left;
 }
 
-/* ─── Pantalla bloqueado ─────────────────────────────────────────────────────── */
+.input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: #555;
+}
+
+.input:focus {
+  border-color: #FFD600;
+}
+
+.input:disabled {
+  opacity: 0.5;
+}
+
+/* ─── Bloqueado ──────────────────────────────────────────────────────────────── */
 .bloqueadoIcon {
   font-size: 2rem;
   margin-bottom: 0.25rem;
 }
 
 .bloqueadoTitulo {
-  font-family: 'Jost', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 1rem;
   font-weight: 600;
-  color: #3d2b1f;
+  color: #fff;
   margin-bottom: 0.5rem;
 }
 
 .bloqueadoTexto {
-  font-family: 'Jost', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 0.85rem;
-  font-weight: 300;
-  color: #9e8a72;
+  color: #888;
   line-height: 1.5;
   margin-bottom: 1.25rem;
 }

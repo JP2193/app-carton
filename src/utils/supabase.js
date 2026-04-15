@@ -8,15 +8,16 @@ export function normalizar(str = '') {
     .trim()
 }
 
-export async function getPlaylistActiva() {
+export async function validarCodigoEvento(playlistId) {
+  // Verifica que exista al menos un invitado para ese playlist_id
+  // (invitados tiene política de lectura pública)
   const { data, error } = await supabase
-    .from('config')
-    .select('value')
-    .eq('key', 'playlist_activa')
-    .single()
-
-  if (error) throw error
-  return data?.value ?? null
+    .from('invitados')
+    .select('id')
+    .eq('playlist_id', playlistId)
+    .limit(1)
+  if (error) return false
+  return true // devuelve true aunque no haya invitados aún; false solo si hay error
 }
 
 export async function getTracksDePlaylist(playlistId) {
