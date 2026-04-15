@@ -8,6 +8,7 @@ import { getCartonGuardado, guardarCarton } from './utils/storage.js'
 
 export default function App() {
   const [screen, setScreen] = useState('codigo')
+  const [eventoId, setEventoId] = useState(null)
   const [playlistId, setPlaylistId] = useState(null)
   const [cartonData, setCartonData] = useState(null)
 
@@ -17,15 +18,18 @@ export default function App() {
 
   useEffect(() => {
     const guardado = getCartonGuardado()
-    if (guardado) {
+    // Solo restaurar si tiene eventoId (formato nuevo)
+    if (guardado?.eventoId) {
       setCartonData(guardado)
+      setEventoId(guardado.eventoId)
       setPlaylistId(guardado.playlistId)
       setScreen('waiting')
     }
   }, [])
 
-  function handleCodigoValido(id) {
-    setPlaylistId(id)
+  function handleCodigoValido({ eventoId: eid, playlistId: pid }) {
+    setEventoId(eid)
+    setPlaylistId(pid)
     setScreen('welcome')
   }
 
@@ -41,11 +45,23 @@ export default function App() {
   }
 
   let content
-  if (screen === 'waiting' && cartonData) content = <Card data={cartonData} onVerCarton={() => setScreen('grid')} />
-  else if (screen === 'grid' && cartonData) content = <BingoScreen data={cartonData} onSalir={handleSalir} />
-  else if (screen === 'error') content = <ErrorScreen mensaje="Hubo un error inesperado." onReintentar={() => setScreen('codigo')} />
-  else if (screen === 'welcome' && playlistId) content = <Welcome playlistId={playlistId} onCartonListo={handleCartonListo} />
-  else content = <Codigo onCodigoValido={handleCodigoValido} codigoInicial={codigoDesdeUrl} />
+  if (screen === 'waiting' && cartonData) {
+    content = <Card data={cartonData} onVerCarton={() => setScreen('grid')} />
+  } else if (screen === 'grid' && cartonData) {
+    content = <BingoScreen data={cartonData} onSalir={handleSalir} />
+  } else if (screen === 'error') {
+    content = <ErrorScreen mensaje="Hubo un error inesperado." onReintentar={() => setScreen('codigo')} />
+  } else if (screen === 'welcome' && eventoId) {
+    content = (
+      <Welcome
+        eventoId={eventoId}
+        playlistId={playlistId}
+        onCartonListo={handleCartonListo}
+      />
+    )
+  } else {
+    content = <Codigo onCodigoValido={handleCodigoValido} codigoInicial={codigoDesdeUrl} />
+  }
 
   return (
     <>

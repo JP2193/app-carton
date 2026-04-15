@@ -2,7 +2,6 @@ import { useState, useEffect, useMemo } from 'react'
 import {
   getInvitados,
   marcarInvitadoAsignado,
-  getTracksDePlaylist,
   registrarSobrante,
   normalizar,
   getNombreEvento,
@@ -10,7 +9,7 @@ import {
 import { getCartonGuardado } from '../../utils/storage.js'
 import styles from './Welcome.module.css'
 
-export default function Welcome({ playlistId, onCartonListo }) {
+export default function Welcome({ eventoId, playlistId, onCartonListo }) {
   const [nombreEvento, setNombreEvento] = useState('')
   const [invitados, setInvitados] = useState([])
   const [cargando, setCargando] = useState(true)
@@ -27,8 +26,8 @@ export default function Welcome({ playlistId, onCartonListo }) {
     async function init() {
       try {
         const [lista, nombre] = await Promise.all([
-          getInvitados(playlistId),
-          getNombreEvento(playlistId),
+          getInvitados(eventoId),
+          getNombreEvento(eventoId),
         ])
         setInvitados(lista)
         setNombreEvento(nombre)
@@ -39,7 +38,7 @@ export default function Welcome({ playlistId, onCartonListo }) {
       }
     }
     init()
-  }, [playlistId])
+  }, [eventoId])
 
   const filtrados = useMemo(() => {
     if (!query.trim()) return invitados
@@ -53,7 +52,7 @@ export default function Welcome({ playlistId, onCartonListo }) {
     if (seleccionandoId) return
 
     const guardado = getCartonGuardado()
-    if (guardado?.invitadoId === invitado.id) {
+    if (guardado?.invitadoId === invitado.id && guardado?.eventoId === eventoId) {
       onCartonListo(guardado)
       return
     }
@@ -61,7 +60,7 @@ export default function Welcome({ playlistId, onCartonListo }) {
     setSeleccionandoId(invitado.id)
     setErrorMsg('')
     try {
-      const data = await marcarInvitadoAsignado(invitado.id, playlistId)
+      const data = await marcarInvitadoAsignado(invitado.id, eventoId, playlistId)
       onCartonListo(data)
     } catch (err) {
       if (err.message === 'YA_ABIERTO') {
@@ -87,20 +86,8 @@ export default function Welcome({ playlistId, onCartonListo }) {
     setSeleccionandoId('sobrante')
     setErrorSobrante('')
     try {
-      const result = await registrarSobrante(playlistId, nombre.trim(), apellido.trim())
-      const todosLosTracks = await getTracksDePlaylist(playlistId)
-      const tracks = result.track_ids
-        .map((id) => todosLosTracks.find((t) => t.id === id))
-        .filter(Boolean)
-      onCartonListo({
-        invitadoId: result.invitado_id,
-        cartonId: result.carton_id,
-        playlistId,
-        nombre: `${nombre.trim()} ${apellido.trim()}`,
-        numero: result.numero,
-        trackIds: result.track_ids,
-        tracks,
-      })
+      const result = await registrarSobrante(eventoId, playlistId, nombre.trim(), apellido.trim())
+      onCartonListo(result)
     } catch (err) {
       setErrorSobrante(
         err.message === 'SIN_CARTONES'

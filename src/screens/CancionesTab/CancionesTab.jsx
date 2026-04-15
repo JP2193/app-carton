@@ -4,7 +4,7 @@ import { getTracksDePlaylist } from '../../utils/supabase.js'
 import styles from './CancionesTab.module.css'
 
 export default function CancionesTab({ data }) {
-  const { playlistId, trackIds } = data
+  const { eventoId, playlistId, trackIds } = data
   const enCartonSet = new Set(trackIds)
 
   const [ordenIds, setOrdenIds] = useState([])
@@ -20,7 +20,7 @@ export default function CancionesTab({ data }) {
       const { data: rows } = await supabase
         .from('canciones_cantadas')
         .select('track_id, cantada_at')
-        .eq('playlist_id', playlistId)
+        .eq('evento_id', eventoId)
         .order('cantada_at', { ascending: true })
       setOrdenIds(rows ? rows.map((r) => r.track_id) : [])
       setCargando(false)
@@ -28,7 +28,7 @@ export default function CancionesTab({ data }) {
     fetchCantadas()
     const interval = setInterval(fetchCantadas, 5000)
     return () => clearInterval(interval)
-  }, [playlistId])
+  }, [eventoId])
 
   const trackMap = new Map(allTracks.map((t) => [t.id, t]))
   const canciones = ordenIds

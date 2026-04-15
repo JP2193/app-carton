@@ -8,21 +8,21 @@ export function normalizar(str = '') {
     .trim()
 }
 
-export async function getNombreEvento(playlistId) {
+export async function getNombreEvento(eventoId) {
   const { data, error } = await supabase.rpc('get_nombre_evento', {
-    p_playlist_id: playlistId,
+    p_evento_id: eventoId,
   })
   if (error || !data) return ''
   return data
 }
 
 export async function validarCodigoEvento(codigo) {
-  // Busca el playlist_id activo del organizador cuyo user_id empieza con el código ingresado
-  const { data, error } = await supabase.rpc('get_playlist_por_codigo', {
+  const { data, error } = await supabase.rpc('get_evento_por_codigo', {
     p_codigo: codigo.toLowerCase(),
   })
-  if (error || !data) return null
-  return data // playlist_id (UUID) del evento activo
+  if (error || !data || data.length === 0) return null
+  const row = Array.isArray(data) ? data[0] : data
+  return { eventoId: row.evento_id, playlistId: row.playlist_id }
 }
 
 export async function getTracksDePlaylist(playlistId) {
@@ -36,32 +36,18 @@ export async function getTracksDePlaylist(playlistId) {
   return data?.tracks ?? []
 }
 
-export async function asignarCarton(playlistId, nombre, apellido) {
-  const identificador = normalizar(`${nombre} ${apellido}`)
-
-  const { data, error } = await supabase.rpc('asignar_carton', {
-    p_playlist_id: playlistId,
-    p_nombre: `${nombre} ${apellido}`,
-    p_nombre_normalizado: identificador,
-  })
-
-  if (error) throw error
-  const result = Array.isArray(data) ? data[0] : data
-  return result ?? null
-}
-
-export async function getInvitados(playlistId) {
+export async function getInvitados(eventoId) {
   const { data, error } = await supabase
     .from('invitados')
     .select('id, nombre, apellido')
-    .eq('playlist_id', playlistId)
+    .eq('evento_id', eventoId)
     .neq('oculto', true)
     .order('apellido', { ascending: true })
   if (error) throw error
   return data ?? []
 }
 
-export async function marcarInvitadoAsignado(invitadoId, playlistId) {
+export async function marcarInvitadoAsignado(invitadoId, eventoId, playlistId) {
   const { data: inv, error } = await supabase
     .from('invitados')
     .select('id, nombre, apellido, carton_id, asignado_at, cartones(id, numero, track_ids)')
@@ -86,6 +72,7 @@ export async function marcarInvitadoAsignado(invitadoId, playlistId) {
 
   return {
     invitadoId,
+    eventoId,
     cartonId: inv.carton_id,
     playlistId,
     nombre: `${inv.nombre} ${inv.apellido}`,
@@ -95,14 +82,29 @@ export async function marcarInvitadoAsignado(invitadoId, playlistId) {
   }
 }
 
-export async function registrarSobrante(playlistId, nombre, apellido) {
+export async function registrarSobrante(eventoId, playlistId, nombre, apellido) {
   const { data, error } = await supabase.rpc('registrar_sobrante', {
-    p_playlist_id: playlistId,
+    p_evento_id: eventoId,
     p_nombre: nombre,
     p_apellido: apellido,
   })
   if (error) throw error
   const result = Array.isArray(data) ? data[0] : data
   if (!result) throw new Error('SIN_CARTONES')
-  return result
+
+  const todosLosTracks = await getTracksDePlaylist(playlistId)
+  const tracks = result.track_ids
+    .map((id) => todosLosTracks.find((t) => t.id === id))
+    .filter(Boolean)
+
+  return {
+    invitadoId: result.invitado_id,
+    eventoId,
+    cartonId: result.carton_id,
+    playlistId,
+    nombre: `${nombre} ${apellido}`,
+    tracks,
+    trackIds: result.track_ids,
+    numero: result.numero,
+  }
 }
