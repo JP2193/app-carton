@@ -12,7 +12,8 @@ export default function App() {
   const [cartonData, setCartonData] = useState(null)
 
   // Código desde pathname: https://bingo-boda.vercel.app/1AEAA558
-  const codigoDesdeUrl = window.location.pathname.slice(1).trim().toUpperCase() || null
+  const _raw = window.location.pathname.slice(1).trim().toUpperCase()
+  const codigoDesdeUrl = /^[A-Z0-9]{4,16}$/.test(_raw) ? _raw : null
 
   useEffect(() => {
     const guardado = getCartonGuardado()

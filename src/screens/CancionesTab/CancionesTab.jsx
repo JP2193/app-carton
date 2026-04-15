@@ -30,9 +30,10 @@ export default function CancionesTab({ data }) {
     return () => clearInterval(interval)
   }, [playlistId])
 
+  const trackMap = new Map(allTracks.map((t) => [t.id, t]))
   const canciones = ordenIds
     .map((id) => {
-      const track = allTracks.find((t) => t.id === id)
+      const track = trackMap.get(id)
       if (!track) return null
       return { ...track, enCarton: enCartonSet.has(id) }
     })
