@@ -19,6 +19,16 @@
   margin: 0;
 }
 
+.subtitleEvento {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ccc;
+  text-align: center;
+  margin-top: 0.4rem;
+  letter-spacing: 0.02em;
+}
+
 .inner {
   flex: 1;
   width: 100%;

@@ -8,6 +8,14 @@ export function normalizar(str = '') {
     .trim()
 }
 
+export async function getNombreEvento(playlistId) {
+  const { data, error } = await supabase.rpc('get_nombre_evento', {
+    p_playlist_id: playlistId,
+  })
+  if (error || !data) return ''
+  return data
+}
+
 export async function validarCodigoEvento(codigo) {
   // Busca el playlist_id activo del organizador cuyo user_id empieza con el código ingresado
   const { data, error } = await supabase.rpc('get_playlist_por_codigo', {

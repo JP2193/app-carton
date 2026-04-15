@@ -5,11 +5,13 @@ import {
   getTracksDePlaylist,
   registrarSobrante,
   normalizar,
+  getNombreEvento,
 } from '../../utils/supabase.js'
 import { getCartonGuardado } from '../../utils/storage.js'
 import styles from './Welcome.module.css'
 
 export default function Welcome({ playlistId, onCartonListo }) {
+  const [nombreEvento, setNombreEvento] = useState('')
   const [invitados, setInvitados] = useState([])
   const [cargando, setCargando] = useState(true)
   const [errorMsg, setErrorMsg] = useState('')
@@ -24,8 +26,12 @@ export default function Welcome({ playlistId, onCartonListo }) {
   useEffect(() => {
     async function init() {
       try {
-        const lista = await getInvitados(playlistId)
+        const [lista, nombre] = await Promise.all([
+          getInvitados(playlistId),
+          getNombreEvento(playlistId),
+        ])
         setInvitados(lista)
+        setNombreEvento(nombre)
       } catch {
         setErrorMsg('Error de conexión. Verificá el WiFi e intentá de nuevo.')
       } finally {
@@ -109,6 +115,7 @@ export default function Welcome({ playlistId, onCartonListo }) {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>BINGO MUSICAL</h1>
+        {nombreEvento && <p className={styles.subtitleEvento}>{nombreEvento}</p>}
       </div>
 
       <div className={styles.inner}>
