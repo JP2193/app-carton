@@ -2,6 +2,15 @@ import { useState, useEffect } from 'react'
 import BingoCell from '../BingoCell/BingoCell.jsx'
 import styles from './BingoGrid.module.css'
 
+function colsFromTrackCount(count) {
+  if (count === 9)  return 3  // 3×3
+  if (count === 12) return 4  // 4×3
+  if (count === 15) return 5  // 5×3
+  if (count === 16) return 4  // 4×4
+  if (count === 20) return 5  // 5×4
+  return 3                    // fallback
+}
+
 export default function BingoGrid({ data }) {
   const { tracks, cartonId } = data
   const storageKey = `tachadas_${cartonId}`
@@ -28,10 +37,12 @@ export default function BingoGrid({ data }) {
     })
   }
 
-  const is4x4 = tracks.length === 16
-  const gridStyle = is4x4
-    ? { gridTemplateColumns: 'repeat(4, 1fr)', gridTemplateRows: 'repeat(4, 1fr)' }
-    : { gridTemplateColumns: 'repeat(3, 1fr)', gridTemplateRows: 'repeat(5, 1fr)' }
+  const cols = colsFromTrackCount(tracks.length)
+  const rows = Math.ceil(tracks.length / cols)
+  const gridStyle = {
+    gridTemplateColumns: `repeat(${cols}, 1fr)`,
+    gridTemplateRows: `repeat(${rows}, 1fr)`,
+  }
 
   return (
     <div className={styles.grid} style={gridStyle}>
