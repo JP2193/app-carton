@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   gap: 1.5rem;
-  background: #fdfaf5;
+  background: #111;
 }
 
 .dots {
@@ -18,7 +18,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #b8935a;
+  background: #FFD600;
   animation: pulse 1.2s ease-in-out infinite;
 }
 
@@ -31,7 +31,7 @@
 }
 
 .text {
-  font-family: 'Jost', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 1rem;
-  color: #9e8a72;
+  color: #666;
 }

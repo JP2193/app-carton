@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(update-config)",
+      "Bash(npm install:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(find C:UsersjavitDesktopProyectosbingo-musical -name *.js -o -name *.jsx -o -name *.ts -o -name *.tsx)",
+      "Bash(find C:UsersjavitDesktopProyectosapp-carton -type f \\\\\\(-name *.jsx -o -name *.tsx -o -name *.ts \\\\\\))",
+      "Bash(find C:UsersjavitDesktopProyectosapp-carton -type f -name *.css -o -name *.module.css)"
+    ]
+  }
+}
